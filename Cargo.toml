@@ -1,0 +1,11 @@
+[package]
+name = "rcom"
+version = "0.1.0"
+authors = ["Vadzim Dambrouski <vadzim.dambrouski@promwad.com>"]
+
+[dependencies]
+chrono = "*"
+clap = "*"
+mio = "*"
+serial = "*"
+termios = "*"
