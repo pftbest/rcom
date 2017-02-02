@@ -14,7 +14,7 @@ use error::CustomError;
 use session::{Session, SessionConfig};
 
 fn parse_config<'a>(matches: &'a ArgMatches) -> Result<SessionConfig<'a>, CustomError> {
-    let device = matches.value_of("device")
+    let device = matches.value_of("device_name")
         .ok_or("Device name is empty")?;
     let speed: u32 = matches.value_of("speed")
         .ok_or("Speed is empty")?
