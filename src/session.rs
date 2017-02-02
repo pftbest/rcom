@@ -9,29 +9,37 @@ use std::time::Duration;
 pub struct SessionConfig<'a> {
     pub device: &'a str,
     pub speed: u32,
+    pub timestamps: bool,
 }
 
-pub struct Session {
+pub struct Session<'a> {
+    config: SessionConfig<'a>,
     stdio: UnixStdio,
     serial: UnixSerial,
     poll: Poll,
     buffer: [u8; 1024],
-    history: Vec<u8>,
+    //history: Vec<u8>,
     line_flag: bool,
 }
 
 const STDIO_TOKEN: Token = Token(0);
 const SERIAL_TOKEN: Token = Token(1);
 
-impl Session {
-    pub fn new(config: &SessionConfig) -> Result<Self, CustomError> {
+enum Action {
+    Nothing,
+    Exit,
+}
+
+impl<'a> Session<'a> {
+    pub fn new(config: SessionConfig<'a>) -> Result<Self, CustomError> {
         let session = Session {
             stdio: UnixStdio::new()?,
-            serial: UnixSerial::new(config.device, config.speed)?,
+            serial: UnixSerial::new(&config.device[..], config.speed)?,
             poll: Poll::new()?,
             buffer: [0; 1024],
-            history: Vec::new(),
+            //history: Vec::new(),
             line_flag: true,
+            config: config,
         };
         session.poll
             .register(&session.stdio,
@@ -84,7 +92,7 @@ impl Session {
     fn process_data(&mut self, ts: DateTime<Local>) -> Result<(), CustomError> {
         let bytes = self.serial.read(&mut self.buffer)?;
         for &x in &self.buffer[..bytes] {
-            if self.line_flag {
+            if self.config.timestamps && self.line_flag {
                 self.line_flag = false;
                 write!(self.stdio,
                        "\x1b[90m[{:02}:{:02}:{:02}.{:04}]\x1b[0m ",
@@ -101,9 +109,4 @@ impl Session {
         self.stdio.flush()?;
         Ok(())
     }
-}
-
-enum Action {
-    Nothing,
-    Exit,
 }
