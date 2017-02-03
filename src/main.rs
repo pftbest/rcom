@@ -32,6 +32,7 @@ fn main() {
         .version("1.0")
         .author("Vadzim Dambrouski <pftbest@gmail.com>")
         .about("A communication program for accessing serial ports")
+        .after_help("KEYS:\n    Use Ctrl+A key to exit rcom")
         .arg(Arg::with_name("device_name")
             .help("Serial port name")
             .short("d")
