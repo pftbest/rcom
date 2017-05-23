@@ -1,8 +1,8 @@
-extern crate chrono;
 extern crate clap;
 extern crate mio;
 extern crate serial;
 extern crate termios;
+extern crate time;
 
 mod error;
 mod mio_serial;

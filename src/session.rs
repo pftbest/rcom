@@ -1,10 +1,10 @@
-use chrono::{Local, DateTime, Timelike};
 use error::CustomError;
 use mio_serial::UnixSerial;
 use mio_stdio::UnixStdio;
 use mio::{Events, Poll, PollOpt, Ready, Token};
 use std::io::{Read, Write};
 use std::time::Duration;
+use time;
 
 pub struct SessionConfig<'a> {
     pub device: &'a str,
@@ -68,7 +68,7 @@ impl<'a> Session<'a> {
                         }
                     }
                     SERIAL_TOKEN => {
-                        let timestamp = Local::now();
+                        let timestamp = time::now();
                         self.process_data(timestamp)?;
                     }
                     _ => unreachable!(),
@@ -89,17 +89,17 @@ impl<'a> Session<'a> {
         Ok(Action::Nothing)
     }
 
-    fn process_data(&mut self, ts: DateTime<Local>) -> Result<(), CustomError> {
+    fn process_data(&mut self, ts: time::Tm) -> Result<(), CustomError> {
         let bytes = self.serial.read(&mut self.buffer)?;
         for &x in &self.buffer[..bytes] {
             if self.config.timestamps && self.line_flag {
                 self.line_flag = false;
                 write!(self.stdio,
                        "\x1b[90m[{:02}:{:02}:{:02}.{:04}]\x1b[0m ",
-                       ts.hour(),
-                       ts.minute(),
-                       ts.second(),
-                       ts.timestamp_subsec_micros() / 100)?;
+                       ts.tm_hour,
+                       ts.tm_min,
+                       ts.tm_sec,
+                       ts.tm_nsec / 100000)?;
             }
             if x == 0x0A {
                 self.line_flag = true;

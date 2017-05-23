@@ -1,6 +1,6 @@
 [package]
 name = "rcom"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Vadzim Dambrouski <vadzim.dambrouski@promwad.com>"]
 description = "A communication program for accessing serial ports"
 repository = "https://github.com/pftbest/rcom"
@@ -10,8 +10,8 @@ categories = ["command-line-utilities"]
 license = "MIT"
 
 [dependencies]
-chrono = "0.2.25"
-clap = "2.19.3"
-mio = "0.6.2"
-serial = "0.3.4"
-termios = "0.2.2"
+clap = "2.24"
+mio = "0.6"
+serial = "0.3"
+termios = "0.2"
+time = "0.1"
