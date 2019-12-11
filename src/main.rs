@@ -37,7 +37,7 @@ fn main() {
             .help("Serial port name")
             .short("d")
             .long("device")
-            .default_value("/dev/ttyUSB1"))
+            .default_value("/dev/ttyUSB0"))
         .arg(Arg::with_name("speed")
             .help("Communication speed")
             .short("s")

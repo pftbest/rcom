@@ -10,8 +10,8 @@ categories = ["command-line-utilities"]
 license = "MIT"
 
 [dependencies]
-clap = "2.24"
-mio = "0.6"
-serial = "0.3"
-termios = "0.2"
-time = "0.1"
+clap = "2.33.0"
+mio = "0.6.21"
+serial = "0.4.0"
+termios = "0.3.1"
+time = "0.1.42"
