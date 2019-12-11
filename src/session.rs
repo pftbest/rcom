@@ -91,6 +91,9 @@ impl<'a> Session<'a> {
 
     fn process_data(&mut self, ts: time::Tm) -> Result<(), CustomError> {
         let bytes = self.serial.read(&mut self.buffer)?;
+        if bytes == 0 {
+            return Err("serial disconnected".into());
+        }
         for &x in &self.buffer[..bytes] {
             if self.config.timestamps && self.line_flag {
                 self.line_flag = false;
