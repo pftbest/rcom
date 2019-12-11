@@ -1,6 +1,6 @@
 [package]
 name = "rcom"
-version = "0.1.1"
+version = "0.2.0"
 authors = ["Vadzim Dambrouski <vadzim.dambrouski@promwad.com>"]
 description = "A communication program for accessing serial ports"
 repository = "https://github.com/pftbest/rcom"
